@@ -1,12 +1,16 @@
 package application.People;
 
 public class Driver extends Employee implements java.io.Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -4538905310137281785L;
 	String vehicles[];
 	String routes[];
+	
+	public Driver(String name, String id, int salary, String[] vehicles, String[] routes) {
+		super(name, id, salary);
+		this.vehicles = vehicles;
+		this.routes = routes;
+	}
 	
 	public String[] getVehicles() {
 		return vehicles;

@@ -1,6 +1,12 @@
 package application.People;
 
 public class Employee {
+	public Employee(String name, String id, int salary) {
+		super();
+		this.name = name;
+		this.id = id;
+		this.salary = salary;
+	}
 	String name;
 	String id;
 	int salary;

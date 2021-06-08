@@ -1,6 +1,14 @@
 package application.Vehicle;
 
 public abstract class Vehicles implements java.io.Serializable{
+	public Vehicles(String model, String name, String id, String spec, String status) {
+		super();
+		this.model = model;
+		this.name = name;
+		this.id = id;
+		this.spec = spec;
+		this.status = status;
+	}
 	/**
 	 * 
 	 */

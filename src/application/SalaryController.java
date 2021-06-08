@@ -1,6 +1,5 @@
 package application;
 
-import application.Individual.HaulingJob;
 import application.Misc.ListData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +23,6 @@ public class SalaryController {
 		System.out.print(salaryPageCC.getValue());
 	}
 	public void Submit() {
-		HaulingJob job = new HaulingJob(null);
 		System.out.println(jobTF.getText()+" Test");
 	}
 }
