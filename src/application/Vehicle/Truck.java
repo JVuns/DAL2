@@ -17,4 +17,8 @@ public class Truck extends Vehicles{
 	public void setYear(int year) {
 		this.year = year;
 	}
+	public String getYear(String a) {
+		String yearProp = Integer.toString(year);
+		return yearProp;
+	}
 }

@@ -24,26 +24,28 @@
          </columnResizePolicy>
       </TableView>
 		<ComboBox id="dropdown" fx:id="modeNameCC" layoutX="14.0" layoutY="14.0" onAction="#ComboOption" prefWidth="150.0" promptText="Mode" />
-		<Pane fx:id="entryPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="650.0" AnchorPane.topAnchor="50.0">
+		<Pane fx:id="entryPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="650.0" AnchorPane.topAnchor="50.0">
 		   <children>
             <Pane layoutX="20.0" layoutY="20.0" prefHeight="360.0" prefWidth="180.0">
                <children>
-      		      <TextField id="jobTF" layoutX="60.0" layoutY="52.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: Hauling" />
-      		      <Label alignment="CENTER_RIGHT" layoutY="56.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Job" />
+      		      <TextField id="jobTF" layoutX="59.0" layoutY="51.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: Hauling" />
+      		      <Label alignment="CENTER_RIGHT" layoutY="196.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Vehicle" />
       		      <TextField id="tonageTF" fx:id="tonageField" layoutX="60.0" layoutY="87.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 50" />
       		      <Label alignment="CENTER_RIGHT" layoutY="91.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Tonage" />
       		      <TextField id="routeTF" fx:id="routeField" layoutX="60.0" layoutY="123.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: North pit" />
       		      <Label alignment="CENTER_RIGHT" layoutY="127.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Route" />
-      		      <TextField id="driverTF" fx:id="DriverField" layoutX="59.0" layoutY="158.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: Johnny Davis" />
       		      <Label alignment="CENTER_RIGHT" layoutY="162.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Driver" />
-      		      <Button layoutX="135.0" layoutY="209.0" mnemonicParsing="false" onAction="#addData" text="Add" />
+      		      <Button layoutX="135.0" layoutY="237.0" mnemonicParsing="false" onAction="#addData" text="Add" />
                   <Button layoutX="100.0" layoutY="330.0" mnemonicParsing="false" onAction="#saveDF" text="Save Data" />
                   <ComboBox fx:id="fileNameCC" layoutX="4.0" layoutY="2.0" onAction="#ComboAction" prefWidth="150.0" promptText="Filename" />
+                  <Label alignment="CENTER_RIGHT" layoutY="56.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Job" />
+                  <ComboBox layoutX="60.0" layoutY="158.0" prefHeight="25.0" prefWidth="127.0" />
+                  <ComboBox fx:id="vehicleCC" layoutX="60.0" layoutY="192.0" prefHeight="25.0" prefWidth="127.0" />
                </children>
             </Pane>
 		   </children>
 		</Pane>
-      <Pane fx:id="driverPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="640.0" AnchorPane.topAnchor="50.0">
+      <Pane fx:id="driverPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="640.0" AnchorPane.topAnchor="50.0">
          <children>
             <Pane layoutX="10.0" layoutY="20.0" prefHeight="360.0" prefWidth="180.0">
                <children>
@@ -52,7 +54,7 @@
                   <TextField id="driverTF" fx:id="DriverField1" layoutX="60.0" layoutY="87.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: BM230" />
                   <Label alignment="CENTER_RIGHT" layoutY="91.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Vehicles" />
                   <Button layoutX="135.0" layoutY="209.0" mnemonicParsing="false" onAction="#addData" text="Add" />
-                  <Button layoutX="104.0" layoutY="332.0" mnemonicParsing="false" onAction="#saveDF" text="Save Data" visible="false" />
+                  <Button layoutX="104.0" layoutY="332.0" mnemonicParsing="false" onAction="#saveDr" text="Save Data" visible="false" />
                   <ComboBox fx:id="fileNameCC1" layoutX="4.0" layoutY="2.0" onAction="#ComboAction" prefWidth="150.0" promptText="Driver" />
                   <Button layoutX="100.0" layoutY="330.0" mnemonicParsing="false" onAction="#saveDF" text="Save Data" />
                </children>
@@ -63,22 +65,34 @@
          <children>
             <Pane layoutX="10.0" layoutY="20.0" prefHeight="360.0" prefWidth="180.0">
                <children>
-                  <TextField id="jobTF" fx:id="jobTF11" layoutX="60.0" layoutY="50.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: H210" />
+                  <TextField id="jobTF" fx:id="vehicleModelField" layoutX="60.0" layoutY="50.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: H210" />
                   <Label alignment="CENTER_RIGHT" layoutY="54.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Model" />
-                  <TextField id="driverTF" fx:id="DriverField11" layoutX="60.0" layoutY="85.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: B12" />
+                  <TextField id="driverTF" fx:id="vehicleNameField" layoutX="60.0" layoutY="85.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: B12" />
                   <Label alignment="CENTER_RIGHT" layoutY="89.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Name" />
-                  <Button layoutX="135.0" layoutY="239.0" mnemonicParsing="false" onAction="#addData" text="Add" />
-                  <Button layoutX="100.0" layoutY="330.0" mnemonicParsing="false" onAction="#saveDF" text="Save Data" />
+                  <Button layoutX="147.0" layoutY="271.0" mnemonicParsing="false" onAction="#addVehicle" text="Add" />
+                  <Button layoutX="100.0" layoutY="330.0" mnemonicParsing="false" onAction="#saveVe" text="Save Data" />
                   <ComboBox fx:id="fileNameCC11" layoutX="4.0" layoutY="2.0" onAction="#ComboAction" prefWidth="150.0" promptText="Vehicle" />
-                  <TextField id="jobTF" fx:id="jobTF111" layoutX="60.0" layoutY="120.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 12-Wheeled" />
+                  <TextField id="jobTF" fx:id="vehicleSpecField" layoutX="60.0" layoutY="120.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 12-Wheeled" />
                   <Label alignment="CENTER_RIGHT" layoutY="124.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Spec" />
-                  <TextField id="driverTF" fx:id="DriverField111" layoutX="60.0" layoutY="155.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: Active" />
-                  <Label alignment="CENTER_RIGHT" layoutY="159.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Status" />
-                  <TextField id="driverTF" fx:id="DriverField1111" layoutX="60.0" layoutY="190.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 2012" />
-                  <Label alignment="CENTER_RIGHT" layoutY="194.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Year" />
+                  <TextField id="driverTF" fx:id="vehicleYearField" layoutX="60.0" layoutY="155.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 2012" />
+                  <Label alignment="CENTER_RIGHT" layoutY="159.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Year" />
+                  <Button layoutX="101.0" layoutY="235.0" mnemonicParsing="false" onAction="#setActive" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: lime;" text="Set Active" />
+                  <Button layoutX="101.0" layoutY="197.0" mnemonicParsing="false" onAction="#setInactive" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: red;" text="Set Inactive" />
                </children>
             </Pane>
          </children>
       </Pane>
+      <TableView fx:id="vehicleTable" layoutX="215.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <columns>
+          <TableColumn fx:id="model" prefWidth="75.0" text="Model" />
+          <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="spec" prefWidth="75.0" text="Spec" />
+            <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
+            <TableColumn fx:id="year" prefWidth="75.0" text="Year" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
     </children>
 </AnchorPane>

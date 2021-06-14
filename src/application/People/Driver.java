@@ -3,20 +3,20 @@ package application.People;
 public class Driver extends Employee implements java.io.Serializable{
 
 	private static final long serialVersionUID = -4538905310137281785L;
-	String vehicles[];
+	String truck[];
 	String routes[];
 	
-	public Driver(String name, String id, int salary, String[] vehicles, String[] routes) {
+	public Driver(String name, String id, int salary, String[] truck, String[] routes) {
 		super(name, id, salary);
-		this.vehicles = vehicles;
+		this.truck = truck;
 		this.routes = routes;
 	}
 	
 	public String[] getVehicles() {
-		return vehicles;
+		return truck;
 	}
-	public void setVehicles(String[] vehicles) {
-		this.vehicles = vehicles;
+	public void setVehicles(String[] truck) {
+		this.truck = truck;
 	}
 	public String[] getRoutes() {
 		return routes;
