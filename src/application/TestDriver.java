@@ -25,7 +25,7 @@ public class TestDriver {
 		ArrayList<?> jobread = (ArrayList<?>) ObjectReader.readJob("Test3");
 		System.out.print(jobread);
 //		System.out.println(((HaulingJob) jobread.get(0)).getDriver());
-		ArrayList<Vehicles> vehicleRead = (ArrayList<Vehicles>) ObjectReader.readVehicle();
+		ArrayList<Vehicles> vehicleRead = (ArrayList<Vehicles>) ObjectReader.readConst("Driver", "Driver");
 		System.out.print(vehicleRead.get(0).getName());
 	}
 }

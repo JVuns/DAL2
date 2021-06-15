@@ -2,10 +2,11 @@ package application;
 
 import java.util.ArrayList;
 import application.Individual.HaulingJob;
+import application.Individual.TruckUnit;
 import application.Misc.ListData;
 import application.Misc.ObjectReader;
 import application.Misc.ObjectWriter;
-import application.Misc.VehicleReader;
+import application.People.Driver;
 import application.Vehicle.Truck;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -41,10 +42,11 @@ public class DataController {
 	@FXML private TableColumn<HaulingJob, String> route;
 	@FXML private TableColumn<HaulingJob, String> driver;
 	@FXML private TableColumn<HaulingJob, String> date;
+	@FXML private TableColumn<HaulingJob, String> vehicle;
 	final ObservableList<Object> dataSet = FXCollections.observableArrayList();
 	
 	/*
-	 * Injection for driverPane 
+	 * Injection for vehiclePane 
 	 */
 	@FXML private TableView<Object> vehicleTable;
 	@FXML private TableColumn<Truck, String> model;
@@ -53,6 +55,17 @@ public class DataController {
 	@FXML private TableColumn<Truck, String> status;
 	@FXML private TableColumn<Truck, String> year;
 	final ObservableList<Object> vehicleSet = FXCollections.observableArrayList();
+	
+	/*
+	 * Injection for driverPane
+	 */
+	
+	@FXML private TableView<Object> driverTable;
+	@FXML private TableColumn<Driver, String> driverNameCol;
+	@FXML private TableColumn<Driver, String> driverStatusCol;
+	
+	final ObservableList<Object> driverSet = FXCollections.observableArrayList();
+	
 	/*
 	 * Injection for TextFields
 	 */
@@ -70,11 +83,13 @@ public class DataController {
 	@FXML private TextField vehicleSpecField;
 	@FXML private TextField vehicleYearField;
 	
-	
+	@FXML private TextField driverName;
+	@FXML private TextField driverStatus;
+
 	/*
 	 * Injection for CC
 	 */
-	
+
 	@FXML private ComboBox<String> fileNameCC;
 	@FXML private ComboBox<String> modeNameCC;
 	@FXML private ComboBox<String> vehicleCC;
@@ -83,23 +98,26 @@ public class DataController {
 			"Entry",
 			"Driver",
 			"Vehicle");
-	
+
 	@FXML
 	private void ComboOption(ActionEvent event) {
 		Pane[] panes = {entryPane, driverPane, vehiclePane};
-	
+
 		for(int i = 0; i<panes.length; i++) {
 			if(panes[i].isVisible()) {
 				panes[i].setVisible(false);
 				dataTable.setVisible(false);
 				vehicleTable.setVisible(false);
+				driverTable.setVisible(false);
 			}
 			if(modeNameCC.getValue() == "Entry") {
 				entryPane.setVisible(true);
 				dataTable.setVisible(true);
 			}
-			if(modeNameCC.getValue() == "Driver") 
+			if(modeNameCC.getValue() == "Driver") {
 				driverPane.setVisible(true);
+				driverTable.setVisible(true);
+			}
 			if(modeNameCC.getValue() == "Vehicle") {
 				vehiclePane.setVisible(true);
 				vehicleTable.setVisible(true);
@@ -110,31 +128,48 @@ public class DataController {
 			observableArrayList(ListData.getDirData());
 	ObservableList<String> vehicleOptions = FXCollections.
 			observableArrayList();
+	ObservableList<String> driverOptions = FXCollections.
+			observableArrayList();
 	
 	@FXML
 	public void initialize() throws Exception {
 		
-		EventHandler<KeyEvent> deleteKey = key -> { //Event handler for keybind
-			if(key.getCode() == KeyCode.DELETE) {
-				if(vehicleTable.isVisible())
+		EventHandler<KeyEvent> deleteKey = key -> { //Event handler for key bind
+			if(key.getCode() == KeyCode.DELETE) { //Condition to make tables delete their respective
+				if(vehicleTable.isVisible())	  //cell
 				deleteVehicleRow();
 				if(dataTable.isVisible())
 				deleteDataRow();
+				if(driverTable.isVisible())
+				deleteDriverRow();
 			}
 		};
 		
-		vehicleTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey); 	//adding event handler so keybind is 
-		dataTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey);		//only work on specific object		
+		vehicleTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey); 	//adding event handler so key bind is 
+		dataTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey);		//only work on these specific tables		
+		driverTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey);
 		
 		vehicleOptions.addAll(ListData.getVehicle());
+		driverOptions.addAll(ListData.getDriver());
 		
 		modeNameCC.setItems(mode);
 		fileNameCC.setItems(options);
 		vehicleCC.setItems(vehicleOptions);
+		driverCC.setItems(driverOptions);
 		fileNameCC.setEditable(true);
+		driverCC.setEditable(true);
 		vehicleTable.setEditable(true);
-		ArrayList<?> loadVehicle = (ArrayList<?>) VehicleReader.readVehicle();
-
+		
+		ArrayList<?> loadDriver = (ArrayList<?>) ObjectReader.readConst("People", "Driver");
+		try{
+			for(int i = 0; i<loadDriver.size(); i++) {
+			driverSet.add(loadDriver.get(i));
+		}
+		populateDriver(driverSet);
+		}catch (Exception e) {
+			System.out.println(e);
+		}
+		ArrayList<?> loadVehicle = (ArrayList<?>) ObjectReader.readConst("Vehicle", "Vehicle");
 		for(int i = 0; i<loadVehicle.size(); i++) {
 			vehicleSet.add(loadVehicle.get(i));
 		}
@@ -145,16 +180,20 @@ public class DataController {
 	private void ComboAction(ActionEvent event) throws Exception {
 		options = FXCollections.
 				observableArrayList(ListData.getDirData());
-		vehicleOptions = FXCollections.
-				observableArrayList(ListData.getDirData());
-		vehicleCC.setItems(vehicleOptions);
-		fileNameCC.setItems(options);
+
 		fileNameCC.setItems(options);
 		
 		System.out.println(fileNameCC.getValue());
 		dataSet.clear();
-		if(!fileNameCC.getValue().isBlank())
+		if(options.contains(fileNameCC.getValue()))
 			populate(dataSet, "load");
+	}
+	
+	@FXML
+	private void ComboActionVehicle(ActionEvent event) throws Exception{
+		vehicleOptions = FXCollections.
+				observableArrayList(ListData.getVehicle());
+		vehicleCC.setItems(vehicleOptions);
 	}
 
 	public void setActive() throws Exception {
@@ -173,14 +212,14 @@ public class DataController {
 	 */
 	public void saveDF() throws Exception{
 		ObservableList<Object> a = dataTable.getItems();
-		System.out.println(((HaulingJob) a.get(0)).getRoute());
+		System.out.println("Data entry saved");
 		ObjectWriter.saveJob(new ArrayList<Object>(a), fileNameCC.getValue(), "Data");
 	}
 	
 	public void saveDr() throws Exception{
-		ObservableList<Object> a = dataTable.getItems();
-		System.out.println(((HaulingJob) a.get(0)).getRoute());
-		ObjectWriter.saveJob(new ArrayList<Object>(a), fileNameCC.getValue(), "People");
+		ObservableList<Object> a = driverTable.getItems();
+		System.out.println("Driver data saved");
+		ObjectWriter.saveJob(new ArrayList<Object>(a), "Driver", "People");
 	}
 	
 	public void saveVe() throws Exception{
@@ -193,14 +232,46 @@ public class DataController {
 	 * Function to add individual data	
 	 */
 	public void addData() throws Exception {
+		int vehicleIndex = 0;
+		int driverIndex = 0;
+		ArrayList<?> loadVehicle = (ArrayList<?>) ObjectReader.readConst("Vehicle", "Vehicle");
+		ArrayList<?> loadDriver = (ArrayList<?>) ObjectReader.readConst("People", "Driver");
 		HaulingJob jobObject = new HaulingJob(null, null, null); 
 		jobObject.setTonage(Double.valueOf(tonageField.getText()));
 		jobObject.addRoute(Integer.valueOf(routeField.getText()));
-		jobObject.setDriver(null);
+		for (int i = 0; i<loadDriver.size(); i++) {
+			Driver item = (Driver) loadDriver.get(i);
+//			System.out.print(item.getName() + " = " + vehicleCC.getValue());
+			if(item.getName().equals(driverCC.getValue()))
+				driverIndex = i;
+		}
+		jobObject.setDriver((Driver)loadDriver.get(driverIndex));
+		for (int i = 0; i<loadVehicle.size(); i++) {
+			TruckUnit item = (TruckUnit) loadVehicle.get(i);
+//			System.out.print(item.getName() + " = " + vehicleCC.getValue());
+			if(item.getName().equals(vehicleCC.getValue()))
+				vehicleIndex = i;
+		}
+		jobObject.setVehicle((TruckUnit) loadVehicle.get(vehicleIndex));
 		jobObject.setDate(application.Misc.Date.getDate());
 		dataSet.add(jobObject);
-		if(!fileNameCC.getValue().isBlank())
+		System.out.println("Data added");
+		if(!(fileNameCC.getValue() == null))
+			if(!fileNameCC.getValue().isBlank())
 			populate(dataSet, "add");
+	}
+	/*
+	 * Function to add individual driver
+	 */
+	public void addDriver() throws Exception {
+		
+		Driver driver = new Driver(null, null, 0, null, null);
+		driver.setName(driverName.getText());
+		driver.setStatus(driverStatus.getText());
+		driverSet.add(driver);
+		if(!driverNameCol.getText().isBlank()
+			&&!driverStatusCol.getText().isBlank()) 
+			populateDriver(driverSet);
 	}
 	
 	/*
@@ -208,7 +279,7 @@ public class DataController {
 	 */
 	public void addVehicle() throws Exception {
 		
-		Truck vehicle = new Truck(null, null, null, null, null, 0);
+		TruckUnit vehicle = new TruckUnit(null, null, null, null, null, 0);
 		vehicle.setModel(vehicleModelField.getText());
 		vehicle.setName(vehicleNameField.getText());
 		vehicle.setSpec(vehicleSpecField.getText());
@@ -216,9 +287,9 @@ public class DataController {
 		vehicle.setYear(Integer.valueOf(vehicleYearField.getText()));
 		vehicleSet.add(vehicle);
 		if(!vehicleModelField.getText().isBlank()
-				&&!vehicleNameField.getText().isBlank()
-				&&!vehicleSpecField.getText().isBlank()
-				&&!vehicleYearField.getText().isBlank()) 
+			&&!vehicleNameField.getText().isBlank()
+			&&!vehicleSpecField.getText().isBlank()
+			&&!vehicleYearField.getText().isBlank()) 
 			populateVehicle(vehicleSet);
 	}
 
@@ -237,7 +308,7 @@ public class DataController {
 		}
 			
 		driver.setCellValueFactory(cellData -> 
-	    new SimpleStringProperty(cellData.getValue().getRoute()));
+	    new SimpleStringProperty(cellData.getValue().getDriver().getName()));
 		tonage.setCellValueFactory(cellData -> 
 	    new SimpleStringProperty(cellData.getValue().getTonage(null)));
 		job.setCellValueFactory(cellData ->
@@ -246,13 +317,29 @@ public class DataController {
 		new SimpleStringProperty(cellData.getValue().getRoute()));
 		date.setCellValueFactory(cellData ->
 		new SimpleStringProperty(cellData.getValue().getDate()));
+		vehicle.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getVehicle().getName()));
 		System.out.println("new log added");
 		dataTable.setItems(dataSet);
 	}
 	
 	/*
+	 * function to populate driverTable with data
+	 */
+	
+	public void populateDriver(ObservableList<Object> driverSet) throws Exception{
+		System.out.println("addDriveer");
+		driverNameCol.setCellValueFactory(cellData -> 
+	    new SimpleStringProperty(cellData.getValue().getName()));
+		driverStatusCol.setCellValueFactory(cellData -> 
+	    new SimpleStringProperty(cellData.getValue().getStatus()));
+		driverTable.setItems(driverSet);
+	}
+
+	/*
 	 * function to populate vehicleTable with data
 	 */
+	
 	public void populateVehicle(ObservableList<Object> vehicleSet) throws Exception{
 		System.out.println("addVehicle");
 		model.setCellValueFactory(cellData -> 
@@ -267,9 +354,11 @@ public class DataController {
 	    new SimpleStringProperty(cellData.getValue().getYear("")));
 		System.out.println("new vehicle added");
 		vehicleTable.setItems(vehicleSet);
-		vehicleTable.getOnKeyPressed();
 	}
 	
+	/*
+	 * cell deletion function
+	 */
 	
 	public void deleteVehicleRow() {
 		vehicleTable.getItems().removeAll(vehicleTable.getSelectionModel().getSelectedItems());
@@ -277,6 +366,10 @@ public class DataController {
 		}
 	public void deleteDataRow() {
 		dataTable.getItems().removeAll(dataTable.getSelectionModel().getSelectedItems());
+	    System.out.println("Deleted");
+		}
+	public void deleteDriverRow() {
+		driverTable.getItems().removeAll(driverTable.getSelectionModel().getSelectedItems());
 	    System.out.println("Deleted");
 		}
 }

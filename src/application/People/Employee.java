@@ -1,6 +1,11 @@
 package application.People;
 
-public class Employee {
+public class Employee implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7490374348645857693L;
+
 	public Employee(String name, String id, int salary) {
 		super();
 		this.name = name;
