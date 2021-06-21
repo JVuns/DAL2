@@ -12,28 +12,30 @@
 <AnchorPane id="anchor-pane" stylesheets="@application.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.DataController">
 	<children>
 		<ComboBox id="dropdown" fx:id="modeNameCC" layoutX="14.0" layoutY="14.0" onAction="#ComboOption" prefWidth="150.0" promptText="Mode" />
-		<Pane fx:id="entryPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="650.0" AnchorPane.topAnchor="50.0">
+		<Pane fx:id="entryPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="650.0" AnchorPane.topAnchor="50.0">
 		   <children>
             <Pane layoutX="20.0" layoutY="20.0" prefHeight="360.0" prefWidth="180.0">
                <children>
-      		      <TextField id="jobTF" layoutX="59.0" layoutY="51.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: Hauling" />
-      		      <Label alignment="CENTER_RIGHT" layoutY="196.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Vehicle" />
+      		      <TextField id="jobTF" disable="true" layoutX="59.0" layoutY="51.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: Hauling" />
+      		      <Label alignment="CENTER_RIGHT" layoutY="232.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Vehicle" />
       		      <TextField id="tonageTF" fx:id="tonageField" layoutX="60.0" layoutY="87.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 50" />
       		      <Label alignment="CENTER_RIGHT" layoutY="91.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Tonage" />
-      		      <TextField id="routeTF" fx:id="routeField" layoutX="60.0" layoutY="123.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: North pit" />
+      		      <TextField id="routeTF" fx:id="routeField" layoutX="60.0" layoutY="123.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: 5" />
       		      <Label alignment="CENTER_RIGHT" layoutY="127.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Route" />
-      		      <Label alignment="CENTER_RIGHT" layoutY="162.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Driver" />
-      		      <Button layoutX="135.0" layoutY="237.0" mnemonicParsing="false" onAction="#addData" text="Add" />
+                  <Label alignment="CENTER_RIGHT" layoutY="162.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Location" />
+      		      <Label alignment="CENTER_RIGHT" layoutY="197.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Driver" />
+      		      <Button layoutX="135.0" layoutY="272.0" mnemonicParsing="false" onAction="#addData" text="Add" />
                   <Button layoutX="100.0" layoutY="330.0" mnemonicParsing="false" onAction="#saveDF" text="Save Data" />
-                  <ComboBox fx:id="fileNameCC" layoutX="4.0" layoutY="2.0" onAction="#ComboAction" prefWidth="150.0" promptText="Filename" />
+                  <ComboBox fx:id="fileNameCC" layoutX="4.0" layoutY="2.0" onMouseClicked="#ComboAction" prefWidth="150.0" promptText="Filename" />
                   <Label alignment="CENTER_RIGHT" layoutY="56.0" prefHeight="17.0" prefWidth="52.0" style="-fx-text-fill: white;" text="Job" />
-                  <ComboBox fx:id="driverCC" layoutX="60.0" layoutY="158.0" prefHeight="25.0" prefWidth="127.0" />
-                  <ComboBox fx:id="vehicleCC" layoutX="60.0" layoutY="192.0" onAction="#ComboActionVehicle" prefHeight="25.0" prefWidth="127.0" />
+                  <ComboBox fx:id="driverCC" layoutX="60.0" layoutY="195.0" onMouseClicked="#ComboActionDriver" prefHeight="25.0" prefWidth="127.0" />
+                  <ComboBox fx:id="vehicleCC" layoutX="60.0" layoutY="230.0" onMouseClicked="#ComboActionVehicle" prefHeight="25.0" prefWidth="127.0" />
+                  <TextField id="routeTF" fx:id="locationField" layoutX="60.0" layoutY="157.0" prefHeight="25.0" prefWidth="127.0" promptText="ex: South" />
                </children>
             </Pane>
 		   </children>
 		</Pane>
-      <Pane fx:id="driverPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="640.0" AnchorPane.topAnchor="50.0">
+      <Pane fx:id="driverPane" layoutY="50.0" prefHeight="360.0" prefWidth="160.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="640.0" AnchorPane.topAnchor="50.0">
          <children>
             <Pane layoutX="10.0" layoutY="20.0" prefHeight="360.0" prefWidth="180.0">
                <children>
@@ -82,12 +84,13 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-		<TableView fx:id="dataTable" prefHeight="420.0" prefWidth="617.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+		<TableView fx:id="dataTable" prefHeight="420.0" prefWidth="617.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <columns>
             <TableColumn fx:id="job" minWidth="50.0" prefWidth="75.0" text="Job" />
             <TableColumn fx:id="date" prefWidth="75.0" text="Date" />
             <TableColumn fx:id="tonage" minWidth="0.0" prefWidth="110.4000244140625" text="Tonage" />
             <TableColumn fx:id="route" minWidth="50.0" prefWidth="304.0" text="Route" />
+            <TableColumn fx:id="locationCol" prefWidth="75.0" text="Location" />
             <TableColumn fx:id="vehicle" prefWidth="75.0" text="Vehicle" />
             <TableColumn fx:id="driver" prefWidth="75.0" text="Driver" />
          </columns>
@@ -95,7 +98,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="driverTable" layoutX="103.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <TableView fx:id="driverTable" layoutX="103.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <columns>
           <TableColumn fx:id="driverNameCol" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="driverStatusCol" prefWidth="75.0" text="Status" />

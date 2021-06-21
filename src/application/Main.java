@@ -11,7 +11,7 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-			primaryStage.setTitle("An App");	
+			primaryStage.setTitle("Automatic driver logger");	
 			
 			Parent homeRoot = FXMLLoader.load(getClass().getResource("Sample.fxml"));
 

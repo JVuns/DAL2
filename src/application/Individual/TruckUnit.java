@@ -25,7 +25,7 @@ public class TruckUnit extends Truck implements Unit{
 	public void setTonage(double tonage) {
 		this.tonage = tonage;
 	}
-	public void Reset() {
+	public void Reset() { //reset the truck job
 		this.job = "No Job";
 		this.tonage = 0;
 	}

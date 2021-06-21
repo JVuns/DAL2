@@ -43,6 +43,7 @@ public class DataController {
 	@FXML private TableColumn<HaulingJob, String> driver;
 	@FXML private TableColumn<HaulingJob, String> date;
 	@FXML private TableColumn<HaulingJob, String> vehicle;
+	@FXML private TableColumn<HaulingJob, String> locationCol;
 	final ObservableList<Object> dataSet = FXCollections.observableArrayList();
 	
 	/*
@@ -73,6 +74,7 @@ public class DataController {
 	@FXML private TextField tonageField;
 	@FXML private TextField routeField;
 	@FXML private TextField driverField;
+	@FXML private TextField locationField;
 	
 	@FXML private TextField nameField;
 	@FXML private TextField idField;
@@ -95,15 +97,19 @@ public class DataController {
 	@FXML private ComboBox<String> vehicleCC;
 	@FXML private ComboBox<String> driverCC;
 	ObservableList<String> mode = FXCollections.observableArrayList(
-			"Entry",
+			"Log",
 			"Driver",
 			"Vehicle");
 
+	/*
+	 * Panes option
+	 */
+	
 	@FXML
 	private void ComboOption(ActionEvent event) {
-		Pane[] panes = {entryPane, driverPane, vehiclePane};
+		Pane[] panes = {entryPane, driverPane, vehiclePane}; 
 
-		for(int i = 0; i<panes.length; i++) {
+		for(int i = 0; i<panes.length; i++) { //setting visibility of panes and tableview by evaluating value of combobox 
 			if(panes[i].isVisible()) {
 				panes[i].setVisible(false);
 				dataTable.setVisible(false);
@@ -124,8 +130,8 @@ public class DataController {
 			}
 		}
 	}
-	ObservableList<String> options = FXCollections.
-			observableArrayList(ListData.getDirData());
+	ObservableList<String> options = FXCollections.				//Observable lists for combobox options
+			observableArrayList(ListData.getDirData("Data"));
 	ObservableList<String> vehicleOptions = FXCollections.
 			observableArrayList();
 	ObservableList<String> driverOptions = FXCollections.
@@ -149,18 +155,18 @@ public class DataController {
 		dataTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey);		//only work on these specific tables		
 		driverTable.addEventHandler(KeyEvent.KEY_PRESSED, deleteKey);
 		
-		vehicleOptions.addAll(ListData.getVehicle());
-		driverOptions.addAll(ListData.getDriver());
+		vehicleOptions.addAll(ListData.getVehicle()); //preloading vehicle data
+		driverOptions.addAll(ListData.getDriver()); //preloading driver data
 		
-		modeNameCC.setItems(mode);
+		modeNameCC.setItems(mode); //Setting all the combobox options
 		fileNameCC.setItems(options);
 		vehicleCC.setItems(vehicleOptions);
 		driverCC.setItems(driverOptions);
-		fileNameCC.setEditable(true);
+		fileNameCC.setEditable(true); // Make it editable
 		driverCC.setEditable(true);
 		vehicleTable.setEditable(true);
 		
-		ArrayList<?> loadDriver = (ArrayList<?>) ObjectReader.readConst("People", "Driver");
+		ArrayList<?> loadDriver = (ArrayList<?>) ObjectReader.readConst("People", "Driver"); //loading driver list to tableview
 		try{
 			for(int i = 0; i<loadDriver.size(); i++) {
 			driverSet.add(loadDriver.get(i));
@@ -169,7 +175,7 @@ public class DataController {
 		}catch (Exception e) {
 			System.out.println(e);
 		}
-		ArrayList<?> loadVehicle = (ArrayList<?>) ObjectReader.readConst("Vehicle", "Vehicle");
+		ArrayList<?> loadVehicle = (ArrayList<?>) ObjectReader.readConst("Vehicle", "Vehicle"); //loading vehicle list to tableview
 		for(int i = 0; i<loadVehicle.size(); i++) {
 			vehicleSet.add(loadVehicle.get(i));
 		}
@@ -177,25 +183,37 @@ public class DataController {
 	}
 	
 	@FXML
-	private void ComboAction(ActionEvent event) throws Exception {
+	private void ComboAction() throws Exception { 
 		options = FXCollections.
-				observableArrayList(ListData.getDirData());
+				observableArrayList(ListData.getDirData("Data"));
 
-		fileNameCC.setItems(options);
+		fileNameCC.setItems(options); //updating combobox when new items were added
 		
 		System.out.println(fileNameCC.getValue());
 		dataSet.clear();
-		if(options.contains(fileNameCC.getValue()))
+		if(options.contains(fileNameCC.getValue())) //loading selected data set to the tableview
 			populate(dataSet, "load");
 	}
 	
 	@FXML
-	private void ComboActionVehicle(ActionEvent event) throws Exception{
+	private void ComboActionVehicle() throws Exception{ //updating combobox when new items were added
 		vehicleOptions = FXCollections.
 				observableArrayList(ListData.getVehicle());
 		vehicleCC.setItems(vehicleOptions);
 	}
-
+	
+	@FXML
+	private void ComboActionDriver() throws Exception{
+		System.out.println("TEST");
+		driverOptions = FXCollections.
+				observableArrayList(ListData.getDriver());
+		driverCC.setItems(driverOptions);
+	}
+	
+	/*
+	 * toggle function to set the vehicle active/inactive
+	 * TODO: add functionality to the vehicle status
+	 */
 	public void setActive() throws Exception {
 		Truck vehicleSelected = (Truck) vehicleTable.getSelectionModel().getSelectedItem();
 		vehicleSelected.setStatus("Active");
@@ -206,9 +224,8 @@ public class DataController {
 		vehicleSelected.setStatus("Inactive");
 	}
 	
-	/**
+	/*
 	 * save functions
-	 * @throws Exception
 	 */
 	public void saveDF() throws Exception{
 		ObservableList<Object> a = dataTable.getItems();
@@ -238,28 +255,28 @@ public class DataController {
 		ArrayList<?> loadDriver = (ArrayList<?>) ObjectReader.readConst("People", "Driver");
 		HaulingJob jobObject = new HaulingJob(null, null, null); 
 		jobObject.setTonage(Double.valueOf(tonageField.getText()));
-		jobObject.addRoute(Integer.valueOf(routeField.getText()));
+		jobObject.addRoute(Integer.valueOf(routeField.getText())); //looking for object with the name selected in combobox
 		for (int i = 0; i<loadDriver.size(); i++) {
 			Driver item = (Driver) loadDriver.get(i);
-//			System.out.print(item.getName() + " = " + vehicleCC.getValue());
 			if(item.getName().equals(driverCC.getValue()))
 				driverIndex = i;
 		}
-		jobObject.setDriver((Driver)loadDriver.get(driverIndex));
-		for (int i = 0; i<loadVehicle.size(); i++) {
+		jobObject.setDriver((Driver)loadDriver.get(driverIndex)); //looking for object with the name selected in combobox
+		for (int i = 0; i<loadVehicle.size(); i++) {			  //maybe could've been easier if I use getName for combobox options
 			TruckUnit item = (TruckUnit) loadVehicle.get(i);
-//			System.out.print(item.getName() + " = " + vehicleCC.getValue());
 			if(item.getName().equals(vehicleCC.getValue()))
 				vehicleIndex = i;
 		}
 		jobObject.setVehicle((TruckUnit) loadVehicle.get(vehicleIndex));
 		jobObject.setDate(application.Misc.Date.getDate());
+		jobObject.setlocation(locationField.getText());
 		dataSet.add(jobObject);
 		System.out.println("Data added");
 		if(!(fileNameCC.getValue() == null))
 			if(!fileNameCC.getValue().isBlank())
 			populate(dataSet, "add");
 	}
+	
 	/*
 	 * Function to add individual driver
 	 */
@@ -293,10 +310,8 @@ public class DataController {
 			populateVehicle(vehicleSet);
 	}
 
-	/**
-	 * Function to populate data into TableView from save file
-	 * @param dataSet2 
-	 * @throws Exception
+	/*
+	 * Function to populate data into TableView from save file 
 	 */
 	public void populate(ObservableList<Object> dataSet, String func) throws Exception {
 
@@ -319,6 +334,8 @@ public class DataController {
 		new SimpleStringProperty(cellData.getValue().getDate()));
 		vehicle.setCellValueFactory(cellData ->
 		new SimpleStringProperty(cellData.getValue().getVehicle().getName()));
+		locationCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getLocation()));
 		System.out.println("new log added");
 		dataTable.setItems(dataSet);
 	}
@@ -326,7 +343,6 @@ public class DataController {
 	/*
 	 * function to populate driverTable with data
 	 */
-	
 	public void populateDriver(ObservableList<Object> driverSet) throws Exception{
 		System.out.println("addDriveer");
 		driverNameCol.setCellValueFactory(cellData -> 
@@ -339,7 +355,6 @@ public class DataController {
 	/*
 	 * function to populate vehicleTable with data
 	 */
-	
 	public void populateVehicle(ObservableList<Object> vehicleSet) throws Exception{
 		System.out.println("addVehicle");
 		model.setCellValueFactory(cellData -> 
@@ -359,7 +374,6 @@ public class DataController {
 	/*
 	 * cell deletion function
 	 */
-	
 	public void deleteVehicleRow() {
 		vehicleTable.getItems().removeAll(vehicleTable.getSelectionModel().getSelectedItems());
 	    System.out.println("Deleted");
