@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import application.Individual.HaulingJob;
 
 public class AbsentController {
@@ -118,7 +119,7 @@ public class AbsentController {
 			LocalDate[] dates = new LocalDate[listOfDates.size()];
 			for(int i = 0; i<listOfDates.size(); i++)
 			{
-				TableColumn<Absent, ?> column = new TableColumn<Absent, String>();
+				TableColumn<Absent, ?> column = new TableColumn<Absent, TextField>();
 				column.setText(listOfDates.get(i).toString());
 				column.setEditable(true);
 				dates[i] = listOfDates.get(i);
@@ -147,6 +148,8 @@ public class AbsentController {
 				absent.setAbsDates(listOfDates);
 				List<String> empty = new ArrayList<String>();
 				absent.setAbsDatesVal(empty);
+				String AnsNo = Integer.toString(absentSet.size()+1);
+				absent.setAnsNo(AnsNo);
 				absentSet.add(absent);
 			}
 			if(assignedName.contains(Name))
@@ -181,36 +184,36 @@ public class AbsentController {
 		}
 		
 		System.out.println("addAbsent");
-//		noCol.setCellValueFactory(cellData -> 
-//	    new SimpleStringProperty(cellData.getValue().getAbsAlpha()));
-//		namaCol.setCellValueFactory(cellData -> 
-//		new SimpleStringProperty(cellData.getValue()));
-//		jobCol.setCellValueFactory(cellData -> 
-//		new SimpleStringProperty(cellData.getValue()));
-//		hadCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		osCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		alphaCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		izinCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		ipCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		sakitCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		breakCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		liburCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		cutiCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		karantinaCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
-//		totalCol.setCellValueFactory(cellData ->
-//		new SimpleStringProperty(cellData.getValue()));
+		noCol.setCellValueFactory(cellData -> 
+	    new SimpleStringProperty(cellData.getValue().getAnsNo()));
+		namaCol.setCellValueFactory(cellData -> 
+		new SimpleStringProperty(cellData.getValue().getAbsName()));
+		jobCol.setCellValueFactory(cellData -> 
+		new SimpleStringProperty(cellData.getValue().getAbsJob()));
+		hadCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsHad()));
+		osCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsOs()));
+		alphaCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsAlpha()));
+		izinCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsIzin()));
+		ipCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsIp()));
+		sakitCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsSakit()));
+		breakCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsBreak()));
+		liburCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsLibur()));
+		cutiCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbsCuti()));
+		karantinaCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getAbskarantina()));
+		totalCol.setCellValueFactory(cellData ->
+		new SimpleStringProperty(cellData.getValue().getTotal()));
 		
-//		System.out.println("new log added");
+
 		System.out.println(dataSet.size());
 		AbsentTable.setItems(dataSet);
 	}
