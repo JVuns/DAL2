@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="anchor-pane" stylesheets="@application.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<ComboBox id="dropdown" layoutX="14.0" layoutY="14.0" prefWidth="150.0" promptText="Mode" />
+		<Pane layoutX="14.0" layoutY="54.0" prefHeight="200.0" prefWidth="181.0" AnchorPane.bottomAnchor="192.39999999999998" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="652.4" AnchorPane.topAnchor="54.0" />
+      <TableView fx:id="pricingTable" layoutX="231.0" layoutY="28.0" prefHeight="394.0" prefWidth="558.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <columns>
+            <TableColumn fx:id="vehicleCol" prefWidth="51.20001220703125" text="No" />
+          <TableColumn fx:id="retCol" prefWidth="168.0" text="Driver" />
+          <TableColumn fx:id="locationCol" prefWidth="81.60003662109375" text="Tgl Masuk" />
+            <TableColumn fx:id="priceCol" prefWidth="60.0" text="Code" />
+            <TableColumn prefWidth="60.0" text="Basic" />
+            <TableColumn prefWidth="60.0" text="Basic Pay" />
+            <TableColumn prefWidth="60.0" text="Pend. Retasi" />
+            <TableColumn prefWidth="60.0" text="Ins. Hadir" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TableView layoutX="211.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="211.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0">
+        <columns>
+            <TableColumn prefWidth="75.0" text="Driver" />
+          <TableColumn prefWidth="75.0" text="Potongan">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Alpha" />
+                  <TableColumn prefWidth="75.0" text="Izin" />
+                  <TableColumn prefWidth="75.0" text="Break" />
+                  <TableColumn prefWidth="75.0" text="BPJS" />
+                  <TableColumn prefWidth="75.0" text="PPh 21" />
+                  <TableColumn prefWidth="75.0" text="Pinjaman" />
+               </columns>
+            </TableColumn>
+            <TableColumn prefWidth="75.0" text="Adjusment" />
+            <TableColumn prefWidth="75.0" text="THP" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <columns>
+            <TableColumn prefWidth="75.0" text="No" />
+            <TableColumn prefWidth="75.0" text="Driver" />
+            <TableColumn prefWidth="75.0" text="BMJ">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="RET" />
+                  <TableColumn prefWidth="75.0" text="TON" />
+               </columns>
+            </TableColumn>
+          <TableColumn prefWidth="75.0" text="BMJ II">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="RET" />
+                  <TableColumn prefWidth="75.0" text="TON" />
+               </columns>
+            </TableColumn>
+          <TableColumn prefWidth="75.0" text="BMJ III">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="RET" />
+                  <TableColumn prefWidth="75.0" text="TON" />
+               </columns>
+            </TableColumn>
+            <TableColumn prefWidth="75.0" text="TOTAL">
+               <columns>
+                  <TableColumn prefWidth="75.0" text="RET" />
+                  <TableColumn prefWidth="75.0" text="TON" />
+               </columns>
+            </TableColumn>
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+    </children>
+</AnchorPane>

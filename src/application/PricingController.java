@@ -9,7 +9,6 @@ import application.Misc.PricingGroup;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -21,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 
 public class PricingController {
 	
+	//Injection
 	@FXML private TextField locationTF;
 	@FXML private TextField routeTF;
 	@FXML private TextField priceTF;
@@ -71,24 +71,28 @@ public class PricingController {
 			observableArrayList(ListData.getDirData("Pricing")); 
 	
 	@FXML
-	private void ComboAction() throws Exception {
+	private void ComboAction() throws Exception { //update list if combobox is clicked
 		vehicles = FXCollections.
 				observableArrayList(ListData.getModels());
 		vehicleCC.setItems(vehicles);
 	}
 	
+	@FXML 
+	private void comboUpdate() { //update list if combobox is clicked
+		options = FXCollections.
+				observableArrayList(ListData.getDirData("Pricing"));	
+		filenameCC.setItems(options);
+	}
+	
 	@FXML
 	private void comboActionFile() throws Exception{
-		options = FXCollections.
-				observableArrayList(ListData.getDirData("Pricing"));
-		filenameCC.setItems(options);
 		System.out.println(filenameCC.getValue());
 		vehicleSet.clear();
 		if(options.contains(filenameCC.getValue())) //loading selected data set to the tableview
 			populateVehicle(vehicleSet, "load");
 	}
 
-	public void savepr() throws Exception{
+	public void savepr() throws Exception{ //saving pricing data set
 		ObservableList<Object> a = pricingTable.getItems();
 		System.out.println("Pricing data updated");
 		ObjectWriter.saveJob(new ArrayList<Object>(a), filenameCC.getValue(), "Pricing" );
@@ -122,5 +126,4 @@ public class PricingController {
 		pricingTable.getItems().removeAll(pricingTable.getSelectionModel().getSelectedItems());
 	    System.out.println("Deleted");
 		}
-
 }

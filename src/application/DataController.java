@@ -14,7 +14,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -24,17 +27,14 @@ import javafx.scene.layout.Pane;
 
 public class DataController {
 	
-	/*
-	 * Grouping pane
-	 */
+	//Grouping pane
+	
 	@FXML private Pane entryPane;
 	@FXML private Pane driverPane;
 	@FXML private Pane vehiclePane;
 	
 	
-	/*
-	 * Injection for entryPane
-	 */
+	//Injection for TableView
 	
 	@FXML private TableView<Object> dataTable;
 	@FXML private TableColumn<HaulingJob, String> job;
@@ -44,11 +44,15 @@ public class DataController {
 	@FXML private TableColumn<HaulingJob, String> date;
 	@FXML private TableColumn<HaulingJob, String> vehicle;
 	@FXML private TableColumn<HaulingJob, String> locationCol;
+	
+	/**
+	 * TODO: add more column
+	 */
+	
 	final ObservableList<Object> dataSet = FXCollections.observableArrayList();
 	
-	/*
-	 * Injection for vehiclePane 
-	 */
+	//Injection for vehiclePane
+	
 	@FXML private TableView<Object> vehicleTable;
 	@FXML private TableColumn<Truck, String> model;
 	@FXML private TableColumn<Truck, String> name;
@@ -57,9 +61,7 @@ public class DataController {
 	@FXML private TableColumn<Truck, String> year;
 	final ObservableList<Object> vehicleSet = FXCollections.observableArrayList();
 	
-	/*
-	 * Injection for driverPane
-	 */
+	//Injection for driverPane
 	
 	@FXML private TableView<Object> driverTable;
 	@FXML private TableColumn<Driver, String> driverNameCol;
@@ -67,9 +69,7 @@ public class DataController {
 	
 	final ObservableList<Object> driverSet = FXCollections.observableArrayList();
 	
-	/*
-	 * Injection for TextFields
-	 */
+	//Injection for TextFields 
 	
 	@FXML private TextField tonageField;
 	@FXML private TextField routeField;
@@ -88,9 +88,7 @@ public class DataController {
 	@FXML private TextField driverName;
 	@FXML private TextField driverStatus;
 
-	/*
-	 * Injection for CC
-	 */
+	//Injection for CC
 
 	@FXML private ComboBox<String> fileNameCC;
 	@FXML private ComboBox<String> modeNameCC;
@@ -100,15 +98,19 @@ public class DataController {
 			"Log",
 			"Driver",
 			"Vehicle");
-
+	
+	//for Dialogs
+	ButtonType okButton = new ButtonType("Ok", ButtonData.OK_DONE);
+	Dialog<String> DialogNullEntryFile = new Dialog<String>(); 
+	
 	/*
-	 * Panes option
+	 * Panes option to change pane visibility
 	 */
 	
 	@FXML
 	private void ComboOption(ActionEvent event) {
 		Pane[] panes = {entryPane, driverPane, vehiclePane}; 
-
+		System.out.printf("New mode selected, changing view to %s", modeNameCC.getValue());
 		for(int i = 0; i<panes.length; i++) { //setting visibility of panes and tableview by evaluating value of combobox 
 			if(panes[i].isVisible()) {
 				panes[i].setVisible(false);
@@ -116,7 +118,7 @@ public class DataController {
 				vehicleTable.setVisible(false);
 				driverTable.setVisible(false);
 			}
-			if(modeNameCC.getValue() == "Entry") {
+			if(modeNameCC.getValue() == "Log") {
 				entryPane.setVisible(true);
 				dataTable.setVisible(true);
 			}
@@ -180,15 +182,27 @@ public class DataController {
 			vehicleSet.add(loadVehicle.get(i));
 		}
 		populateVehicle(vehicleSet);
+		
+		DialogNullEntryFile.setTitle("Error");
+		DialogNullEntryFile.setContentText("Please name the data set");
+		DialogNullEntryFile.getDialogPane().getButtonTypes().add(okButton); //adding button to the dialog window
 	}
 	
-	@FXML
-	private void ComboAction() throws Exception { 
+	
+	/*
+	 * TODO: Create new class for this function
+	 */
+	
+	@FXML 
+	private void UpdateAction() {
 		options = FXCollections.
 				observableArrayList(ListData.getDirData("Data"));
 
 		fileNameCC.setItems(options); //updating combobox when new items were added
-		
+	}
+	
+	@FXML
+	private void ComboAction() throws Exception { 
 		System.out.println(fileNameCC.getValue());
 		dataSet.clear();
 		if(options.contains(fileNameCC.getValue())) //loading selected data set to the tableview
@@ -210,10 +224,8 @@ public class DataController {
 		driverCC.setItems(driverOptions);
 	}
 	
-	/*
-	 * toggle function to set the vehicle active/inactive
-	 * TODO: add functionality to the vehicle status
-	 */
+	// TODO: add functionality to the vehicle status
+	
 	public void setActive() throws Exception {
 		Truck vehicleSelected = (Truck) vehicleTable.getSelectionModel().getSelectedItem();
 		vehicleSelected.setStatus("Active");
@@ -224,9 +236,7 @@ public class DataController {
 		vehicleSelected.setStatus("Inactive");
 	}
 	
-	/*
-	 * save functions
-	 */
+	//save functions
 	public void saveDF() throws Exception{
 		ObservableList<Object> a = dataTable.getItems();
 		System.out.println("Data entry saved");
@@ -272,11 +282,13 @@ public class DataController {
 		jobObject.setlocation(locationField.getText());
 		dataSet.add(jobObject);
 		System.out.println("Data added");
+		if(fileNameCC.getValue() == null) 
+			DialogNullEntryFile.show(); //Show dialog window when filename entry is null
 		if(!(fileNameCC.getValue() == null))
 			if(!fileNameCC.getValue().isBlank())
 			populate(dataSet, "add");
 	}
-	
+
 	/*
 	 * Function to add individual driver
 	 */
@@ -374,6 +386,7 @@ public class DataController {
 	/*
 	 * cell deletion function
 	 */
+	
 	public void deleteVehicleRow() {
 		vehicleTable.getItems().removeAll(vehicleTable.getSelectionModel().getSelectedItems());
 	    System.out.println("Deleted");
@@ -386,4 +399,6 @@ public class DataController {
 		driverTable.getItems().removeAll(driverTable.getSelectionModel().getSelectedItems());
 	    System.out.println("Deleted");
 		}
+	
 }
+

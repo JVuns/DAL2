@@ -20,4 +20,11 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>test.jar</name>
+			<type>1</type>
+			<location>D:/test.jar</location>
+		</link>
+	</linkedResources>
 </projectDescription>

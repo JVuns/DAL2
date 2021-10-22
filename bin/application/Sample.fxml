@@ -21,6 +21,26 @@
                   <fx:include source="Salary.fxml" />
                </content>
           </Tab>
+          <Tab text="Attendance Exception ">
+               <content>
+                  <fx:include source="Present.fxml" />
+               </content>
+          </Tab>
+          <Tab text="Absent">
+               <content>
+                  <fx:include source="Absent.fxml" />
+               </content>
+          </Tab>
+          <Tab text="MasDrive">
+               <content>
+                  <fx:include source="MasDrive.fxml" />
+               </content>
+          </Tab>
+          <Tab text="Cloud">
+               <content>
+                  <fx:include source="Cloud.fxml" />
+               </content>
+          </Tab>
         </tabs>
       </TabPane>
    </children>

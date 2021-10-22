@@ -2,8 +2,6 @@ package application.Misc;
 
 import java.io.Serializable;
 
-import application.Vehicle.Vehicles;
-
 public class PricingGroup implements Serializable {
 	/**
 	 * 

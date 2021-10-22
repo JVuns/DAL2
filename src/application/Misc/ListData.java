@@ -14,19 +14,21 @@ public class ListData {
 	
     public static String[] getDirData(String dir) {
         String[] dataList;
-        File f = new File("src/" + dir);
+        String filePath = new File("").getAbsolutePath();
+        File f = new File(filePath+ "/src/" + dir);
         dataList = f.list();
         System.out.println(dataList);
 		return dataList;
     }
     
     /*
-     * returning list of vehicle from Vehicle directory
+     * returning a list of vehicle from Vehicle directory
      */
     
     public static String[] getVehicle() throws Exception {
     	System.out.println("getVehicle");
-    	ArrayList<Vehicles> objectData = (ArrayList<Vehicles>) ObjectReader.readConst("Vehicle", "Vehicle");
+    	@SuppressWarnings("unchecked")
+		ArrayList<Vehicles> objectData = (ArrayList<Vehicles>) ObjectReader.readConst("Vehicle", "Vehicle");
     	String[] dataList = new String[objectData.size()];
     	System.out.print(objectData.size());
     	for(int i = 0; i<objectData.size(); i++) {
@@ -38,12 +40,13 @@ public class ListData {
     }
     
     /*
-     * returning list of driver from Driver directory
+     * returning a list of driver from Driver directory
      */
     
     public static String[] getDriver() throws Exception {
     	System.out.println("getDriver");
-    	ArrayList<Driver> objectData = (ArrayList<Driver>) ObjectReader.readConst("People", "Driver");
+    	@SuppressWarnings("unchecked")
+		ArrayList<Driver> objectData = (ArrayList<Driver>) ObjectReader.readConst("People", "Driver");
     	String[] dataList = new String[objectData.size()];
     	System.out.print(objectData.size());
     	for(int i = 0; i<objectData.size(); i++) {
@@ -53,10 +56,14 @@ public class ListData {
     	System.out.println("Returning Data");
 		return dataList;
     }
-    
+
+    /*wdsdqwja
+     * returning a list of models from vehicle file
+     */
     public static String[] getModels() throws Exception{
     	System.out.println("getModels");
-    	ArrayList<Vehicles> objectData = (ArrayList<Vehicles>) ObjectReader.readConst("Vehicle", "Vehicle");
+    	@SuppressWarnings("unchecked")
+		ArrayList<Vehicles> objectData = (ArrayList<Vehicles>) ObjectReader.readConst("Vehicle", "Vehicle");
     	String[] dataList = new String[objectData.size()];
     	System.out.print(objectData.size());
     	for(int i = 0; i<objectData.size(); i++) {
